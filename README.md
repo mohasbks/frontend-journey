@@ -58,7 +58,7 @@ This repository documents my progress as I dive into modern **client-side techno
 
 ## 🧑‍💻 About Me
 
-**Name:** معتصم بالله إبراهيم  
+**Name:** المعتصم بالله إبراهيم  
 **Location:** Cairo, Egypt 🇪🇬  
 **Email:** [235179@eru.edu.eg](mailto:235179@eru.edu.eg)
 
