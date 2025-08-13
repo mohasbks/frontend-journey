@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,58 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classic Pong Solo</title>
   <style>
-    body {
-      background: #000;
-      color: #fff;
-      font-family: monospace;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    #loadingScreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 30px;
-      z-index: 1000;
-    }
-    #gameContainer {
-      display: none;
-      padding: 20px;
-    }
-    #gameArea {
-      position: relative;
-      width: 600px;
-      height: 400px;
-      margin: auto;
-      border: 2px solid #fff;
-      background: #000;
-      overflow: hidden;
-    }
-    .paddle {
-      width: 10px;
-      height: 80px;
-      background: #fff;
-      position: absolute;
-      left: 10px;
-    }
-    #ball {
-      width: 15px;
-      height: 15px;
-      background: #fff;
-      border-radius: 50%;
-      position: absolute;
-    }
-    #score {
-      margin-top: 15px;
-      font-size: 20px;
-    }
+    body { background: #000; color: #fff; font-family: monospace; text-align: center; margin: 0; padding: 0; }
+    #loadingScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; justify-content: center; align-items: center; font-size: 30px; z-index: 1000; }
+    #gameContainer { display: none; padding: 20px; }
+    #gameArea { position: relative; width: 600px; height: 400px; margin: auto; border: 2px solid #fff; background: #000; overflow: hidden; }
+    .paddle { width: 10px; height: 80px; background: #fff; position: absolute; left: 10px; }
+    #ball { width: 15px; height: 15px; background: #fff; border-radius: 50%; position: absolute; }
+    #score { margin-top: 15px; font-size: 20px; }
   </style>
 </head>
 <body>
@@ -113,6 +67,14 @@
         if(e.key === "ArrowDown") downPressed = false;
       });
 
+      gameArea.addEventListener('touchmove', (e) => {
+        let touch = e.touches[0];
+        let rect = gameArea.getBoundingClientRect();
+        paddleY = touch.clientY - rect.top - paddleHeight/2;
+        paddleY = Math.max(0, Math.min(paddleY, gameHeight - paddleHeight));
+        paddle.style.top = paddleY + "px";
+      });
+
       function gameLoop() {
         if(upPressed) paddleY -= paddleSpeed;
         if(downPressed) paddleY += paddleSpeed;
@@ -122,14 +84,8 @@
         ballX += ballSpeedX;
         ballY += ballSpeedY;
 
-        if(ballY <= 0) {
-          ballY = 0;
-          ballSpeedY *= -1;
-        }
-        if(ballY >= gameHeight - ballSize) {
-          ballY = gameHeight - ballSize;
-          ballSpeedY *= -1;
-        }
+        if(ballY <= 0) { ballY = 0; ballSpeedY *= -1; }
+        if(ballY >= gameHeight - ballSize) { ballY = gameHeight - ballSize; ballSpeedY *= -1; }
 
         if(ballX <= paddleWidth && ballY + ballSize >= paddleY && ballY <= paddleY + paddleHeight) {
           ballX = paddleWidth;
@@ -138,10 +94,7 @@
           scoreDisplay.textContent = "Score: " + score;
         }
 
-        if(ballX >= gameWidth - ballSize) {
-          ballX = gameWidth - ballSize;
-          ballSpeedX *= -1;
-        }
+        if(ballX >= gameWidth - ballSize) { ballX = gameWidth - ballSize; ballSpeedX *= -1; }
 
         ball.style.left = ballX + "px";
         ball.style.top = ballY + "px";
@@ -151,14 +104,6 @@
 
       gameLoop();
     }
-    gameArea.addEventListener('touchmove', (e) => {
-  let touch = e.touches[0];
-  let rect = gameArea.getBoundingClientRect();
-  paddleY = touch.clientY - rect.top - paddleHeight/2;
-  paddleY = Math.max(0, Math.min(paddleY, gameHeight - paddleHeight));
-  paddle.style.top = paddleY + "px";
-});
-
   </script>
 </body>
 </html>
