@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الطقس في مصر</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>الطقس في مصر</h1>
+            <div class="date-time" id="dateTime"></div>
+        </header>
+        
+        <div class="search-box">
+            <select id="citySelect">
+                <option value="Cairo">القاهرة</option>
+                <option value="Alexandria">الإسكندرية</option>
+                <option value="Giza">الجيزة</option>
+                <option value="Luxor">الأقصر</option>
+                <option value="Aswan">أسوان</option>
+                <option value="Sharm El Sheikh">شرم الشيخ</option>
+                <option value="Hurghada">الغردقة</option>
+                <option value="Dahab">دهب</option>
+                <option value="Marsa Alam">مرسى علم</option>
+                <option value="Port Said">بورسعيد</option>
+                <option value="Suez">السويس</option>
+                <option value="Ismailia">الإسماعيلية</option>
+                <option value="Tanta">طنطا</option>
+                <option value="Mansoura">المنصورة</option>
+                <option value="Zagazig">الزقازيق</option>
+                <option value="Damanhur">دمنهور</option>
+                <option value="Minya">المنيا</option>
+                <option value="Asyut">أسيوط</option>
+                <option value="Sohag">سوهاج</option>
+                <option value="Qena">قنا</option>
+                <option value="Beni Suef">بني سويف</option>
+                <option value="Fayyum">الفيوم</option>
+                <option value="Kafr El Sheikh">كفر الشيخ</option>
+                <option value="Damietta">دمياط</option>
+                <option value="Arish">العريش</option>
+                <option value="Siwa">سيوة</option>
+            </select>
+            <input type="text" id="cityInput" placeholder="أو أدخل اسم مدينة أخرى..." style="display: none;">
+            <button id="searchBtn">عرض الطقس</button>
+            <button id="customBtn">مدينة أخرى</button>
+        </div>
+
+        <div class="weather-card" id="weatherCard">
+            <div class="loading" id="loading">جاري التحميل...</div>
+            <div class="weather-content" id="weatherContent" style="display: none;">
+                <div class="location">
+                    <h2 id="cityName"></h2>
+                    <p id="country"></p>
+                </div>
+                
+                <div class="current-weather">
+                    <div class="temp-main">
+                        <span id="temperature"></span>
+                        <span class="degree">°C</span>
+                    </div>
+                    <div class="weather-icon">
+                        <img id="weatherIcon" src="" alt="">
+                    </div>
+                </div>
+                
+                <div class="weather-description">
+                    <p id="condition"></p>
+                </div>
+                
+                <div class="weather-details">
+                    <div class="detail-item">
+                        <span class="label">الرطوبة</span>
+                        <span class="value" id="humidity"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">سرعة الرياح</span>
+                        <span class="value" id="windSpeed"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">الشعور بـ</span>
+                        <span class="value" id="feelsLike"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">الضغط</span>
+                        <span class="value" id="pressure"></span>
+                    </div>
+                </div>
+                
+                <div class="sun-times">
+                    <div class="sun-item">
+                        <span class="sun-label">شروق الشمس</span>
+                        <span class="sun-value" id="sunrise"></span>
+                    </div>
+                    <div class="sun-item">
+                        <span class="sun-label">غروب الشمس</span>
+                        <span class="sun-value" id="sunset"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="forecast-section">
+            <h3>التوقعات للأيام القادمة</h3>
+            <div class="forecast-container" id="forecastContainer"></div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
