@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بيانو تفاعلي - Interactive Piano</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🎹 بيانو تفاعلي</h1>
+        <div class="piano-container">
+            <div class="piano">
+                
+                <div class="key white-key" data-sound="kick.wav" data-note="C">
+                    <span class="key-label">C</span>
+                </div>
+                <div class="key white-key" data-sound="snare.wav" data-note="D">
+                    <span class="key-label">D</span>
+                </div>
+                <div class="key white-key" data-sound="hihat.wav" data-note="E">
+                    <span class="key-label">E</span>
+                </div>
+                <div class="key white-key" data-sound="clap.wav" data-note="F">
+                    <span class="key-label">F</span>
+                </div>
+                <div class="key white-key" data-sound="boom.wav" data-note="G">
+                    <span class="key-label">G</span>
+                </div>
+                <div class="key white-key" data-sound="tink.wav" data-note="A">
+                    <span class="key-label">A</span>
+                </div>
+                <div class="key white-key" data-sound="tom.wav" data-note="B">
+                    <span class="key-label">B</span>
+                </div>
+                 
+                
+                <div class="key black-key" data-sound="openhat.wav" data-note="C#">
+                    <span class="key-label">C#</span>
+                </div>
+                <div class="key black-key" data-sound="ride.wav" data-note="D#">
+                    <span class="key-label">D#</span>
+                </div>
+                <div class="key black-key" data-sound="kick.wav" data-note="F#">
+                    <span class="key-label">F#</span>
+                </div>
+                <div class="key black-key" data-sound="snare.wav" data-note="G#">
+                    <span class="key-label">G#</span>
+                </div>
+                <div class="key black-key" data-sound="hihat.wav" data-note="A#">
+                    <span class="key-label">A#</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="volume-control">
+                <label for="volume">🔊 مستوى الصوت:</label>
+                <input type="range" id="volume" min="0" max="100" value="70">
+            </div>
+            <div class="info">
+                <p>اضغط على المفاتيح أو استخدم لوحة المفاتيح (A-L)</p>
+            </div>
+        </div>
+        
+        <div class="sound-waves">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
