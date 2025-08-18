@@ -114,7 +114,7 @@ const fetchData = () => {
       if (success) {
         resolve({ data: "User data", id: 123 });
       } else {
-        reject(new Error("Failed to fetch data"));
+        reject(new Error("Failed to fetch"));
       }
     }, 1000);
   });
