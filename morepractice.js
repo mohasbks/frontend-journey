@@ -11,7 +11,7 @@ console.log(calculateTax(250));
 console.log(calculateTax(500));
 
 const logStudentGrade = (name, grade) => {
-    console.log(`Student ${name} has scored ${grade}% in the final exam.`);
+    console.log(`Student ${name} has scoreed ${grade}% in the final exam.`);
 };
 
 logStudentGrade("Alice", 92);
