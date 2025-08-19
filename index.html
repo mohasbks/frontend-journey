@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Georgia', 'Times New Roman', serif;
+        margin: 0;
+        padding: 30px;
+        background: linear-gradient(45deg, #f8f8f8 25%, transparent 25%),
+                    linear-gradient(-45deg, #f8f8f8 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, #f8f8f8 75%),
+                    linear-gradient(-45deg, transparent 75%, #f8f8f8 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        background-color: #ffffff;
+        min-height: 100vh;
+        color: #2c2c2c;
+      }
+
+      .container {
+        max-width: 650px;
+        margin: 0 auto;
+        background: #ffffff;
+        border: 4px double #2c2c2c;
+        padding: 50px 40px;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.1), 
+                    inset 0 0 0 8px #ffffff,
+                    inset 0 0 0 12px #2c2c2c;
+        position: relative;
+      }
+
+      .container::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+        border: 1px solid #e0e0e0;
+        pointer-events: none;
+      }
+
+      .container::after {
+        content: '◊ ◊ ◊';
+        position: absolute;
+        top: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        padding: 0 20px;
+        color: #2c2c2c;
+        font-size: 14px;
+        letter-spacing: 8px;
+      }
+
+      h2 {
+        text-align: center;
+        color: #2c2c2c;
+        margin-bottom: 40px;
+        font-size: 2.8em;
+        font-weight: normal;
+        text-transform: capitalize;
+        letter-spacing: 2px;
+        border-bottom: 1px solid #2c2c2c;
+        padding-bottom: 20px;
+        position: relative;
+        font-family: 'Georgia', serif;
+      }
+
+      h2::before, h2::after {
+        content: '❦';
+        position: absolute;
+        bottom: -8px;
+        color: #2c2c2c;
+        font-size: 16px;
+      }
+
+      h2::before {
+        left: 0;
+      }
+
+      h2::after {
+        right: 0;
+      }
+
+      .input-container {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 25px;
+      }
+
+      .input-container {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 35px;
+        align-items: stretch;
+      }
+
+      #taskInput {
+        flex: 1;
+        padding: 18px 25px;
+        border: 2px solid #2c2c2c;
+        border-radius: 0;
+        font-size: 17px;
+        outline: none;
+        transition: all 0.3s ease;
+        background: white;
+        font-family: 'Georgia', serif;
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      #taskInput:focus {
+        background: #fafafa;
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1), 
+                    0 0 0 3px rgba(44, 44, 44, 0.1);
+        border-color: #1a1a1a;
+      }
+
+      .btn {
+        padding: 18px 30px;
+        border: 2px solid #2c2c2c;
+        border-radius: 0;
+        font-size: 16px;
+        font-weight: normal;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: capitalize;
+        letter-spacing: 1px;
+        font-family: 'Georgia', serif;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        transition: left 0.5s;
+      }
+
+      .btn:hover::before {
+        left: 100%;
+      }
+
+      .btn-add {
+        background: #2c2c2c;
+        color: white;
+        min-width: 130px;
+      }
+
+      .btn-add:hover {
+        background: #1a1a1a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(44, 44, 44, 0.3);
+      }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        justify-content: center;
+      }
+
+      .controls {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 25px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn-filter {
+        background: white;
+        color: #2c2c2c;
+        padding: 12px 22px;
+        font-size: 14px;
+        border: 1px solid #2c2c2c;
+        border-radius: 0;
+        font-family: 'Georgia', serif;
+        font-weight: normal;
+        transition: all 0.3s ease;
+        position: relative;
+        text-transform: capitalize;
+      }
+
+      .btn-filter::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: #2c2c2c;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+
+      .btn-filter:hover::after,
+      .btn-filter.active::after {
+        width: 80%;
+      }
+
+      .btn-filter.active {
+        background: #2c2c2c;
+        color: white;
+      }
+
+      .btn-filter:hover {
+        background: #f5f5f5;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(44, 44, 44, 0.15);
+      }
+
+      .btn-filter.active:hover {
+        background: #1a1a1a;
+      }
+
+      .stats {
+        text-align: center;
+        margin-bottom: 25px;
+        padding: 18px;
+        background: #fafafa;
+        border: 1px solid #e0e0e0;
+        border-left: 4px solid #2c2c2c;
+        font-size: 15px;
+        color: #2c2c2c;
+        font-weight: normal;
+        font-family: 'Georgia', serif;
+        font-style: italic;
+      }
+
+      #taskList {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        background: white;
+        margin: 15px 0;
+        padding: 25px;
+        border: 1px solid #e0e0e0;
+        border-left: 4px solid #2c2c2c;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 4px;
+        height: 100%;
+        background: #2c2c2c;
+        transform: scaleY(1);
+        transition: all 0.3s ease;
+      }
+
+      li:hover {
+        transform: translateX(5px);
+        box-shadow: -5px 2px 15px rgba(44, 44, 44, 0.15);
+        background: #fafafa;
+      }
+
+      li.done {
+        background: #f8f8f8;
+        opacity: 0.8;
+        border-left-color: #666;
+      }
+
+      li.done::before {
+        background: #666;
+      }
+
+      li.done .task-text {
+        text-decoration: line-through;
+        color: #666666;
+      }
+
+      .task-text {
+        flex: 1;
+        font-size: 17px;
+        color: #2c2c2c;
+        font-weight: normal;
+        word-break: break-word;
+        padding-right: 20px;
+        font-family: 'Georgia', serif;
+        line-height: 1.4;
+      }
+
+      .task-actions {
+        display: flex;
+        gap: 10px;
+        opacity: 0.7;
+        transition: opacity 0.3s ease;
+      }
+
+      li:hover .task-actions {
+        opacity: 1;
+      }
+
+      .btn-action {
+        width: 38px;
+        height: 38px;
+        border: 1px solid #2c2c2c;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: normal;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        color: #2c2c2c;
+      }
+
+      .btn-edit:hover {
+        background: #2c2c2c;
+        color: white;
+        transform: rotate(15deg) scale(1.1);
+      }
+
+      .btn-delete:hover {
+        background: #2c2c2c;
+        color: white;
+        transform: rotate(-15deg) scale(1.1);
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 50px 30px;
+        color: #666666;
+        font-size: 18px;
+        font-family: 'Georgia', serif;
+        font-style: italic;
+        border: 2px dashed #ddd;
+        background: linear-gradient(45deg, #fafafa 25%, transparent 25%),
+                    linear-gradient(-45deg, #fafafa 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, #fafafa 75%),
+                    linear-gradient(-45deg, transparent 75%, #fafafa 75%);
+        background-size: 30px 30px;
+        background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
+        line-height: 1.6;
+      }
+
+      .empty-state::before {
+        content: '◈';
+        display: block;
+        font-size: 30px;
+        margin-bottom: 15px;
+        color: #bbb;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.3s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .slide-out {
+        animation: slideOut 0.3s ease-out forwards;
+      }
+
+      @keyframes slideOut {
+        from { opacity: 1; transform: translateX(0); }
+        to { opacity: 0; transform: translateX(100%); }
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          margin: 10px;
+          padding: 20px;
+        }
+        
+        .input-container {
+          flex-direction: column;
+        }
+        
+        .controls {
+          flex-wrap: wrap;
+        }
+        
+        h2 {
+          font-size: 2em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>📝 My Tasks</h2>
+      
+      <div class="input-container">
+        <input
+          type="text"
+          id="taskInput"
+          placeholder="What shall we accomplish today?"
+          maxlength="200"
+        />
+        <button class="btn btn-add" onclick="addTask()">Add Task</button>
+      </div>
+
+      <div class="controls">
+        <button class="btn-filter active" onclick="filterTasks('all')">All</button>
+        <button class="btn-filter" onclick="filterTasks('active')">Active</button>
+        <button class="btn-filter" onclick="filterTasks('completed')">Completed</button>
+        <button class="btn-filter" onclick="clearCompleted()">Clear Completed</button>
+      </div>
+
+      <div class="stats" id="stats">
+        <span id="taskCount">0 tasks remaining</span>
+      </div>
+
+      <ul id="taskList"></ul>
+      
+      <div class="empty-state" id="emptyState" style="display: none;">
+        Your task list awaits.<br>Begin by adding your first accomplishment above.
+      </div>
+    </div>
+
+    <script>
+      let tasks = [];
+      let currentFilter = 'all';
+      let editingTask = null;
+
+      const taskInput = document.getElementById("taskInput");
+      const taskList = document.getElementById("taskList");
+      const stats = document.getElementById("stats");
+      const emptyState = document.getElementById("emptyState");
+
+      window.onload = () => {
+        loadTasks();
+        updateUI();
+      };
+
+      taskInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          addTask();
+        }
+      });
+
+      function addTask() {
+        const text = taskInput.value.trim();
+        if (!text) return;
+
+        if (editingTask !== null) {
+          tasks[editingTask].text = text;
+          editingTask = null;
+        } else {
+          const task = {
+            id: Date.now(),
+            text: text,
+            completed: false,
+            createdAt: new Date().toISOString()
+          };
+          tasks.unshift(task);
+        }
+
+        taskInput.value = "";
+        saveTasks();
+        updateUI();
+      }
+
+      function deleteTask(id) {
+        const taskElement = document.querySelector(`[data-id="${id}"]`);
+        taskElement.classList.add('slide-out');
+        
+        setTimeout(() => {
+          tasks = tasks.filter(task => task.id !== id);
+          saveTasks();
+          updateUI();
+        }, 300);
+      }
+
+      function toggleTask(id) {
+        const task = tasks.find(task => task.id === id);
+        if (task) {
+          task.completed = !task.completed;
+          saveTasks();
+          updateUI();
+        }
+      }
+
+      function editTask(id) {
+        const task = tasks.find(task => task.id === id);
+        if (task) {
+          taskInput.value = task.text;
+          taskInput.focus();
+          editingTask = tasks.indexOf(task);
+        }
+      }
+
+      function createTaskElement(task) {
+        const li = document.createElement("li");
+        li.className = task.completed ? "done fade-in" : "fade-in";
+        li.setAttribute('data-id', task.id);
+        
+        li.innerHTML = `
+          <span class="task-text">${escapeHtml(task.text)}</span>
+          <div class="task-actions">
+            <button class="btn-action btn-edit" onclick="editTask(${task.id})" title="Edit Task">✎</button>
+            <button class="btn-action btn-delete" onclick="deleteTask(${task.id})" title="Delete Task">✕</button>
+          </div>
+        `;
+
+        li.addEventListener('click', (e) => {
+          if (!e.target.classList.contains('btn-action')) {
+            toggleTask(task.id);
+          }
+        });
+
+        return li;
+      }
+
+      function filterTasks(filter) {
+        currentFilter = filter;
+        
+        document.querySelectorAll('.btn-filter').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        
+        updateUI();
+      }
+
+      function clearCompleted() {
+        tasks = tasks.filter(task => !task.completed);
+        saveTasks();
+        updateUI();
+      }
+
+      function updateUI() {
+        taskList.innerHTML = "";
+        
+        let filteredTasks = tasks;
+        if (currentFilter === 'active') {
+          filteredTasks = tasks.filter(task => !task.completed);
+        } else if (currentFilter === 'completed') {
+          filteredTasks = tasks.filter(task => task.completed);
+        }
+
+        filteredTasks.forEach(task => {
+          taskList.appendChild(createTaskElement(task));
+        });
+
+        const activeTasks = tasks.filter(task => !task.completed).length;
+        const completedTasks = tasks.filter(task => task.completed).length;
+        
+        document.getElementById('taskCount').textContent = 
+          `${activeTasks} active • ${completedTasks} completed • ${tasks.length} total`;
+
+        emptyState.style.display = tasks.length === 0 ? 'block' : 'none';
+        taskList.style.display = tasks.length === 0 ? 'none' : 'block';
+      }
+
+      function saveTasks() {
+        const tasksData = tasks.map(task => ({
+          id: task.id,
+          text: task.text,
+          completed: task.completed,
+          createdAt: task.createdAt
+        }));
+        
+        try {
+          const savedData = JSON.stringify(tasksData);
+          if (savedData.length < 5000000) {
+            window.taskStorage = tasksData;
+          }
+        } catch (e) {
+          console.warn('Storage limit exceeded');
+        }
+      }
+
+      function loadTasks() {
+        try {
+          const savedTasks = window.taskStorage || [];
+          tasks = savedTasks.map(task => ({
+            id: task.id || Date.now(),
+            text: task.text || '',
+            completed: task.completed || false,
+            createdAt: task.createdAt || new Date().toISOString()
+          }));
+        } catch (e) {
+          tasks = [];
+        }
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+    </script>
+  </body>
+</html>
