@@ -1,63 +1,68 @@
-<p align="center">
-  <img src="https://img.shields.io/badge/Front--End-Learning-blue?style=for-the-badge" alt="Front-End Badge" />
-  <img src="https://img.shields.io/badge/HTML%20%7C%20CSS%20%7C%20JS%20%7C%20Bootstrap%20%7C%20Vue.js-success?style=for-the-badge" alt="Tech Stack Badge" />
-</p>
+# Vue.js Lab Project
 
-<h1 align="center">🌐 Front-End Web Development Journey</h1>
+A complete Vue.js shopping cart application demonstrating all Vue directives, components, props, emits, methods, and computed properties.
 
-<p align="center">A curated collection of notes, mini-projects, and practical learnings from my front-end development course covering HTML, CSS, JavaScript, Bootstrap, and Vue.js.</p>
+## Project Structure
 
----
+```
+src/
+├── main.js           → Vue app entry point
+├── App.vue           → Parent component
+└── components/
+    ├── Navbar.vue      → Global navigation component
+    ├── ProductCard.vue → Product display component
+    └── Cart.vue        → Shopping cart component
+```
 
-## 📌 Overview
+## Features Implemented
 
-This repository documents my progress as I dive into modern **client-side technologies**. It includes everything I learn while studying front-end development in a structured and hands-on way.
+### ✅ Required Components
+- **Navbar.vue**: Global component displaying store name and cart count
+- **ProductCard.vue**: Local component for individual products with props and emits
+- **Cart.vue**: Optional cart component with remove functionality
 
----
+### ✅ Data Properties
+- `products`: Array of product objects with id, name, price, inStock, description, image
+- `cartCount`: Number (default 0)
+- `showProducts`: Boolean (default true)
+- `discount`: Number (example 10)
+- `cart`: Array storing added products
 
-## 🧠 What I'm Learning
+### ✅ Vue Directives Used
+- `v-for`: Loop through products array
+- `v-if/v-else-if/v-else`: Stock status conditions
+- `v-show`: Toggle product list visibility
+- `:class`: Dynamic classes based on stock status
+- `v-bind`: Bind dynamic attributes like src for images
+- `v-on/@click`: Event handling
+- `v-text`: Text content binding
 
-| ✅ Skill | 🔍 Focus Areas |
-|--------|----------------|
-| **HTML5** | Semantic elements, tables, forms, accessibility |
-| **CSS3** | Flexbox, Grid, media queries, transitions, animations |
-| **JavaScript (ES6)** | DOM manipulation, events, arrays, functions, fetch API |
-| **Bootstrap 5** | Grid system, components, utilities |
-| **Vue.js 3** | Reactive UI, components, directives, Vue Router |
-| **Git & GitHub** | Version control, branching, collaboration |
+### ✅ Methods
+- `addToCart(product)`: Adds product to cart, increments cartCount, shows alert
+- `removeFromCart(index)`: Removes product from cart, decrements cartCount
 
----
+### ✅ Computed Properties
+- `totalPrice`: Sum of prices of products in cart
 
-## 💼 Why This Repo?
+### ✅ Props & Emits
+- **Navbar**: Receives `cartCount` prop
+- **ProductCard**: Receives `product` prop, emits `add-to-cart`
+- **Cart**: Receives `cart` and `totalPrice` props, emits `remove-from-cart`
 
-- 💡 Organize my notes and practice in one place  
-- 🧪 Build and test what I learn with real code  
-- 🌍 Share my journey with the community  
-- 📈 Track my progress week by week  
+### ✅ Extra Features
+- "No products available" message when products array is empty
+- Dynamic stock status with color coding (in-stock: green, limited-stock: orange, out-of-stock: grey)
+- Discount message only shows if discount > 0
+- Bootstrap grid layout (3 columns on large screens)
+- Responsive design with Bootstrap classes
 
----
+## How to Run
 
-## 🛠️ Tools & Stack
+1. Open `index.html` in a web browser
+2. Or use a local server like Live Server extension in VS Code
 
-<p align="center">
-  <img src="https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
-  <img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
-  <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" />
-  <img src="https://img.shields.io/badge/Vue.js-42b883?style=for-the-badge&logo=vue.js&logoColor=white" />
-  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
-</p>
-
----
-
-## 📸 Sneak Peek
-
-> ✨ I’m building landing pages, responsive layouts, interactive elements, reusable Vue components, and much more as I go!
-
----
-
-## 🧑‍💻 About Me
-
-**Name:** المعتصم بالله إبراهيم  
-**Location:** Cairo, Egypt 🇪🇬  
-**Email:** [235179@eru.edu.eg](mailto:235179@eru.edu.eg)
+## Technologies Used
+- Vue.js 3
+- Bootstrap 5
+- Modern ES6+ JavaScript
+- CSS3 with custom styles
